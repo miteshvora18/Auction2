@@ -1,0 +1,44 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+
+namespace Auction
+{
+    public partial class ProductDetail : System.Web.UI.Page
+    {
+        string conn = System.Configuration.ConfigurationManager.ConnectionStrings["auctionConn"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (!IsPostBack)
+            {
+                SqlConnection con = new SqlConnection(conn);
+                SqlCommand cmd = new SqlCommand("Select cname,pname,pdesc,pimage,minBid,bidEndTime from products p join categories c on c.cid=p.cid where pid=@pid", con);
+                cmd.Parameters.AddWithValue("@pid",Request.QueryString["pid"].ToString());
+                con.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        lblCategory.Text = dr[0].ToString();
+                        lblPname.Text = dr[1].ToString();
+                        lblPDesc.Text = dr[2].ToString();
+                        imgProduct.ImageUrl = "~/Upload/"+dr[3].ToString();
+                        lblMinBid.Text = dr[4].ToString();
+                        lblBidEndTime.Text = dr[5].ToString();
+                    }
+                }
+                con.Close();
+            }
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+
+        }
+    }
+}

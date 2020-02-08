@@ -1,0 +1,37 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" MasterPageFile="~/User.Master" CodeBehind="ProductDetail.aspx.cs" Inherits="Auction.ProductDetail" %>
+
+<asp:Content ContentPlaceHolderID="Body" runat="server">
+    <div class="addProduct">
+        <br />
+        <br />
+        <div>
+            <div style="width:30%;float:left;">Product Image</div> 
+            <asp:Image ID="imgProduct" runat="server" Width="300px" />
+        </div>
+        <br />
+        <div>
+            <div style="width:30%;float:left;">Product Name</div> 
+            <asp:Label ID="lblPname" runat="server"></asp:Label>
+        </div>
+        <br />
+        <div>
+            <div style="width:30%;float:left;">Product Description</div> 
+            <asp:Label ID="lblPDesc" runat="server"></asp:Label>
+        </div>
+        <br />
+        <div>
+            <div style="width:30%;float:left;">Minimum Bid</div> 
+            <asp:Label ID="lblMinBid" runat="server"></asp:Label>
+        </div>
+        <br />
+        <div>
+            <div style="width:30%;float:left;">Bid End Time</div> 
+            <asp:Label ID="lblBidEndTime" runat="server"></asp:Label>
+        </div>
+        <br />
+        <div>
+            <div style="width:30%;float:left;">Enter Your Bid Amount</div> 
+            <asp:Label ID="Label1" runat="server"></asp:Label>
+        </div>
+    </div>
+</asp:Content>

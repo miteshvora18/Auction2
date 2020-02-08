@@ -1,0 +1,50 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+
+namespace Auction
+{
+    public partial class Feedback : System.Web.UI.Page
+    {
+        string conn = System.Configuration.ConfigurationManager.ConnectionStrings["auctionConn"].ConnectionString;
+        protected void Page_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            string uid = null;
+            SqlConnection con = null;
+            con = new SqlConnection(conn);
+            #region get user id
+                SqlCommand cmd2 = new SqlCommand("Select uid from users where username=@user", con);
+                cmd2.Parameters.AddWithValue("@user", (string)Session["user"]);
+                con.Open();
+                SqlDataReader dr = cmd2.ExecuteReader();
+                if (dr.HasRows)
+                {
+                    while (dr.Read())
+                    {
+                        uid = dr[0].ToString();
+                    }
+                }
+                con.Close();
+            #endregion
+
+            SqlCommand cmd = new SqlCommand("Insert into feedback values(@uid,@subject,@description,@fdate)",con);
+            cmd.Parameters.AddWithValue("@uid",uid);
+            cmd.Parameters.AddWithValue("@subject",txtSubject.Text);
+            cmd.Parameters.AddWithValue("@description", txtDesc.Text);
+            cmd.Parameters.AddWithValue("@fdate", DateTime.Now);
+            con.Open();
+            cmd.ExecuteNonQuery();
+            con.Close();
+            ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Your feedback is registered...Thank You')", true);
+        }
+    }
+}
